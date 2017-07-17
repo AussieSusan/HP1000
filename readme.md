@@ -47,16 +47,23 @@ subnets, the need to be suitably configured (which is beyond the scope of these
 notes). Therefore it is recommended that the weather console and the computer
 running Weewx and this driver be on the same subnet.
 
-The broadcast address mask is set as a configuration item in the '[HP1000]'
-section of the 'weewx.conf' file and takes the form:
+If you have the 'netifaces' Python package installed, then the driver will
+try to find the correct broadcast address of the "default" interface. (The
+default interface generally the one your computer uses to communicate with
+the rest of the Internet.)
+
+If you do not have the 'netifaces' package installed then you will need to
+define the broadcast address mask as a configuration item in the 
+'[HP1000]' section of the 'weewx.conf' file - it takes the form:
 
 	ip_address_mask = "192.168.1.255"
 or
 
-	ip_address_mask = "10.1.1.255"
+	ip_address_mask = "10.1.255.255"
 
 In other words, it is the main network address with '255' added as the final
-component.
+component or component, depending on the addressing scheme used on your 
+computer.
 
 The driver will attempt to communicate with the weather station as soon as 
 Weewx requests a 'loop' packet. This means that the driver can request a packet 
