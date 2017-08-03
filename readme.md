@@ -3,7 +3,16 @@ Copyright 2017 Susan Mackay
 
 # Introduction
 The HP1000 driver communicates directly with the weather station console via 
-WiFi. 
+WiFi.
+
+When the driver is started, it will make contact with the weather station and
+try to retrieve any archive records (make by the weather station at the interval
+set by the "Interval" setup parameter) before reading the current data at 
+regular intervals. If weeWx has not been used before, this can take a while
+(about an hour for each year in the archive) but it means that the weather
+station historical data is made avialable to weeWx.
+
+The normal generation of  html files will be delayed while weeWx performs the catch up process, but it means that the data will include the period while weeWx was not working but the weather station was still logging data.
 
 ## Parameter Units
 The HP1000 weather consoles can display wind, rain and similar properties
@@ -36,7 +45,7 @@ text 'HP1000' in them which allows easy searching of the log file.
 ## Limitations
 ### Unit Selection
 The driver only requests the parameter units form the console when a connection
-is established. Therefore, if you change the unit for a parameter, the Weewx
+is established. Therefore, if you change the unit for a parameter, the weeWx
 program must be restarted. Otherwise the information form the console will be
 misinterpreted.
 
@@ -45,7 +54,7 @@ In order to find the weather console, the driver issues UDP 'broadcast'
 messages. While it is possible for routers to pass these packets between
 subnets, the need to be suitably configured (which is beyond the scope of these
 notes). Therefore it is recommended that the weather console and the computer
-running Weewx and this driver be on the same subnet.
+running weeWx and this driver be on the same subnet.
 
 If you have the 'netifaces' Python package installed, then the driver will
 try to find the correct broadcast address of the "default" interface. (The
@@ -66,7 +75,7 @@ component or component, depending on the addressing scheme used on your
 computer.
 
 The driver will attempt to communicate with the weather station as soon as 
-Weewx requests a 'loop' packet. This means that the driver can request a packet 
+weeWx requests a 'loop' packet. This means that the driver can request a packet 
 every few seconds (depending on how fast the weather station responds to each 
 request) which can lead to a volume of network traffic. Depending on the network
 setup and other uses of the network, this may or may not be an issue.
@@ -79,24 +88,24 @@ a value of 0 meaning that packets will be requested as frequently as possible.
 ## Testing
 The driver can be run stand-alone and without connection to a weather station 
 console by following the instructions for runing a stand-alone driver in the 
-Weewx documentation.
+weeW3x documentation.
 
 # Pre-requisites
 
-The HP1000 driver has been tested using Weewx V3.6.2. It should work on earlier 
+The HP1000 driver has been tested using weeWx V3.6.2. It should work on earlier 
 (3.x.x) versions but this has not been tested and is not guaranteed.
 
 ## Active Network Required
 An active network is required before the HP1000 driver can access the weather 
-station console. This can be an issue when Weewx is run as a daemon which means 
+station console. This can be an issue when weeWx is run as a daemon which means 
 that it will be started as the computer system boots.
 
-Weewx can be set up to handle this situation is one of two ways.
+weeWx can be set up to handle this situation is one of two ways.
 
 **Note** Editing the weewx.conf file is the recommended option
 
 ### Edit the weewx.conf file
-Weewx has a built-in mechanism to handle network failures. In the weewx.conf file add in the line
+weeWx has a built-in mechanism to handle network failures. In the weewx.conf file add in the line
 
 	loop_on_init = True
 
@@ -109,7 +118,7 @@ then wait for 60 seconds and repeat the process indefinitely until network
 access is maintained.
 
 This process will also be used if the network access is lost at any time after
-Weewx is operating normally.
+weeWx is operating normally.
 
 ### Edit the Daemon startup file
 With this option, you tell the daemon to delay starting until an active network 
@@ -129,7 +138,7 @@ systemctl to control the computer. This can be done by editing/adding the approp
 **Note**: there can be multiple 'Requires' and 'After' lines in the control 
 file.
 
-The last two lines ensure that any crash of Weewx will cause the program to be 
+The last two lines ensure that any crash of weeWx will cause the program to be 
 restarted after a 60 second pause. This applies to errors other than the network 
 access one discussed here.
 
@@ -144,7 +153,7 @@ Please consider the information in the 're-requisites' section.
 The last command will (eventually) list all of the known drivers. Select the
 number next to 'HP1000'.
 
-2) Start Weewx:
+2) Start weeWx:
 	sudo /etc/init.d/weewx enable
 	sudo /etc/init.d/weewx start
 	
