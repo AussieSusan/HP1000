@@ -65,10 +65,10 @@ If you do not have the 'netifaces' package installed then you will need to
 define the broadcast address mask as a configuration item in the 
 '[HP1000]' section of the 'weewx.conf' file - it takes the form:
 
-	ip_address_mask = "192.168.1.255"
+    ip_address_mask = "192.168.1.255"
 or
 
-	ip_address_mask = "10.1.255.255"
+    ip_address_mask = "10.1.255.255"
 
 In other words, it is the main network address with '255' added as the final
 component or component, depending on the addressing scheme used on your 
@@ -107,7 +107,7 @@ weeWx can be set up to handle this situation is one of two ways.
 ### Edit the weewx.conf file
 weeWx has a built-in mechanism to handle network failures. In the weewx.conf file add in the line
 
-	loop_on_init = True
+    loop_on_init = True
 
 This line can be added right at the top in the same area where the 'debug' and 
 WEEWX_ROOT parameters are defined.
@@ -126,14 +126,14 @@ is available. The file you need to edit depends on whether you are using SysV or
 systemctl to control the computer. This can be done by editing/adding the appropriate file as outlined below.
 
 #### SysV
-	Required-Start: $local_fs ... _$network_ ...
-	Required-Stop: $local_fs ... _$network_ ...
+    Required-Start: $local_fs ... _$network_ ...
+    Required-Stop: $local_fs ... _$network_ ...
 
 #### systemctl
-	Requires=network-online.target
-	After=network-online.target
-	Restart=always
-	RestartSec=60
+    Requires=network-online.target
+    After=network-online.target
+    Restart=always
+    RestartSec=60
 
 **Note**: there can be multiple 'Requires' and 'After' lines in the control 
 file.
@@ -146,26 +146,28 @@ access one discussed here.
 Please consider the information in the 're-requisites' section.
 1) run the installer:
 
-	sudo cd <path to weewx directory>
-	sudo python ./bin/wee_extension --install <path to file>/HP1000
-	sudo python ./bin/wee_config --reconfigure
-	
-The last command will (eventually) list all of the known drivers. Select the
+    sudo cd <path to weewx directory>
+    sudo python ./bin/wee_extension --install <path to file>/HP1000
+    sudo python ./bin/wee_config --reconfigure
+    
+The last command will (eventually) list all of the known drivers. Select the 
 number next to 'HP1000'.
 
 2) Start weeWx:
-	sudo /etc/init.d/weewx enable
-	sudo /etc/init.d/weewx start
-	
+
+    sudo /etc/init.d/weewx enable
+    sudo /etc/init.d/weewx start
+
 or
-	sudo systemctl daemon-reload
-	sudo systemctl weewx enable
-	sudo systemctl weewx start
+
+    sudo systemctl daemon-reload
+    sudo systemctl weewx enable
+    sudo systemctl weewx start
 
 3) To restart weewx:
 
-	sudo /etc/init.d/weewx stop
-	sudo /etc/init.d/weewx start
+    sudo /etc/init.d/weewx stop
+    sudo /etc/init.d/weewx start
 or 
 
-	sudo systemctl restart weewx
+    sudo systemctl restart weewx
