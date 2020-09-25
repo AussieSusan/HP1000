@@ -1,9 +1,11 @@
 # HP1000 - a driver for HP1000 and clones including WS1001 and XC0422
-Copyright 2017 Susan Mackay
+Copyright 2017-2020 Susan Mackay
 
 # Introduction
 The HP1000 driver communicates directly with the weather station console via 
 WiFi.
+
+Note: This version requires WeeWx V4.1.1 or above and therefore Python 3.
 
 When the driver is started, it will make contact with the weather station and
 try to retrieve any archive records (make by the weather station at the interval
@@ -12,7 +14,9 @@ regular intervals. If weeWx has not been used before, this can take a while
 (about an hour for each year in the archive) but it means that the weather
 station historical data is made avialable to weeWx.
 
-The normal generation of  html files will be delayed while weeWx performs the catch up process, but it means that the data will include the period while weeWx was not working but the weather station was still logging data.
+The normal generation of  html files will be delayed while weeWx performs the 
+catch up process, but it means that the data will include the period while weeWx 
+was not working but the weather station was still logging data.
 
 ## Parameter Units
 The HP1000 weather consoles can display wind, rain and similar properties
@@ -71,7 +75,7 @@ or
     ip_address_mask = "10.1.255.255"
 
 In other words, it is the main network address with '255' added as the final
-component or component, depending on the addressing scheme used on your 
+component or components, depending on the addressing scheme used on your 
 computer.
 
 The driver will attempt to communicate with the weather station as soon as 
@@ -92,8 +96,9 @@ weeW3x documentation.
 
 # Pre-requisites
 
-The HP1000 driver has been tested using weeWx V3.6.2. It should work on earlier 
-(3.x.x) versions but this has not been tested and is not guaranteed.
+The HP1000 driver has been tested using weeWx V4.1.1 and uses Python 3. It might work on earlier 
+versions but this has not been tested and is not guaranteed.
+Similarly, it might work with later versions but this has not been tested.
 
 ## Active Network Required
 An active network is required before the HP1000 driver can access the weather 
@@ -146,31 +151,30 @@ access one discussed here.
 Please consider the information in the 're-requisites' section.
 
 1) run the installer:
-```
+
     sudo cd <path to weewx directory>
     sudo python ./bin/wee_extension --install <path to file>/HP1000
     sudo python ./bin/wee_config --reconfigure
-```
+
 The last command will (eventually) list all of the known drivers. Select the 
 number next to 'HP1000'.
 
 2) Start weeWx:
-```
+
     sudo /etc/init.d/weewx enable
     sudo /etc/init.d/weewx start
-```
+
 or 
-```
+
     sudo systemctl daemon-reload
     sudo systemctl weewx enable
     sudo systemctl weewx start
-```
+
 3) To restart weewx:
-```
+
     sudo /etc/init.d/weewx stop
     sudo /etc/init.d/weewx start
-```
+
 or 
-```
+
     sudo systemctl restart weewx
-```
