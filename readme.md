@@ -152,6 +152,7 @@ Please consider the information in the 're-requisites' section.
 
 1) run the installer:
 
+
     sudo cd <path to weewx directory>
     sudo python ./bin/wee_extension --install <path to file>/HP1000
     sudo python ./bin/wee_config --reconfigure
